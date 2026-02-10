@@ -87,9 +87,9 @@ h1 {
     <h1>🎧 DJ Adu Booking</h1>
 
     <form onsubmit="sendBooking(event)">
-      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="text" id="ሺም" placeholder="Your Name" required>
       <input type="tel" id="phone" placeholder="Your Phone Number" required>
-      <input type="text" id="eventType" placeholder="Event Type (Wedding, Party…)" required>
+      <input type="text" id="eventType" placeholder="ዓይነት ውራይ (Wedding, Party…)" required>
 
       <!-- DATE PICKER -->
       <input type="date" id="eventDate" required>
@@ -98,7 +98,7 @@ h1 {
       <input type="text" id="eventPlace" placeholder="Detecting your location..." required>
 
       <button type="button" onclick="openDirections()">🧭 Get Directions</button>
-      <button type="submit">📩 Book DJ Adu</button>
+      <button type="submit">📩 Book DJ Adu ድጀይ ኣዱ</button>
     </form>
 
   </div>
@@ -139,7 +139,7 @@ function sendBooking(e) {
   e.preventDefault();
 
   const message =
-`🎧 DJ Adu – New Booking Request
+`🎧 DJ Adu ድጀይ ኣዱ– New Booking Request
 
 Name: ${name.value}
 Phone: ${phone.value}
@@ -156,4 +156,5 @@ Place: ${eventPlace.value}`;
 
 </body>
 </html>
+
 
