@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>DJ Adu ድጀይ ኣዱ | Booking</title>
 
 <style>
@@ -51,6 +51,8 @@ input, button {
   border-radius: 14px;
   border: none;
   font-size: 16px;
+  position: relative;
+  z-index: 5;
 }
 
 input {
@@ -84,6 +86,15 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* DATE & TIME INPUT FIX */
+input[type="date"],
+input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+}
+
 /* DESKTOP IMPROVEMENT */
 @media (min-width: 900px) {
   .form-box {
@@ -92,9 +103,9 @@ h1 {
 }
 
 /* MOBILE FIX */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .bg-fixed {
-    background-attachment: scroll;
+    background-attachment: scroll !important;
   }
 }
 </style>
@@ -104,7 +115,6 @@ h1 {
 
 <div class="bg-fixed">
   <div class="overlay">
-
     <div class="form-box">
       <h1>🎧 DJ Adu Booking</h1>
 
@@ -112,21 +122,25 @@ h1 {
         <input type="text" id="name" placeholder="Your Name" required>
         <input type="tel" id="phone" placeholder="Your Phone Number" required>
         <input type="text" id="eventType" placeholder="ዓይነት ውራይ (Wedding, Party…)" required>
-
-        <!-- NUMBER OF PEOPLE -->
         <input type="number" id="people" placeholder="Number of People" min="1" required>
-
+        
         <!-- DATE PICKER -->
-        <input type="date" id="eventDate" required>
+        <input type="text" id="eventDate" placeholder="Select Event Date" 
+               onfocus="this.type='date'" 
+               onblur="if(!this.value)this.type='text'" required>
+        
+        <!-- TIME PICKER -->
+        <input type="text" id="eventTime" placeholder="Select Event Time" 
+               onfocus="this.type='time'" 
+               onblur="if(!this.value)this.type='text'" required>
 
-        <!-- LOCATION (AUTO-DETECT, NO MAP) -->
+        <!-- LOCATION (AUTO-DETECT) -->
         <input type="text" id="eventPlace" placeholder="Detecting your location..." required>
 
         <button type="button" onclick="openDirections()">🧭 Get Directions</button>
         <button type="submit">📩 Book DJ Adu ድጀይ ኣዱ</button>
       </form>
     </div>
-
   </div>
 </div>
 
@@ -175,6 +189,7 @@ function sendBooking(e) {
 🎉 Event: ${eventType.value}
 👥 People: ${people.value}
 📅 Date: ${eventDate.value}
+⏰ Time: ${eventTime.value}
 📍 Place: ${eventPlace.value}`;
 
   window.open(
