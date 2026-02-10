@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DJ Adu | Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: url("dj-adu-bg.jpg") no-repeat center center/cover;
+      color: #fff;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.75);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #00fff7;
+      text-shadow: 0 0 10px #00fff7;
+    }
+
+    .tagline {
+      color: #ff00cc;
+      font-size: 16px;
+      margin-top: -5px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .whatsapp {
+      background: #25D366;
+    }
+
+    .call {
+      background: #007bff;
+    }
+
+    .email {
+      background: #ff0055;
+    }
+
+    .booking-form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 420px;
+      margin: auto;
+      box-shadow: 0 0 20px #ff00cc55;
+    }
+
+    .booking-form h2 {
+      text-align: center;
+      color: #00fff7;
+      margin-bottom: 15px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff00cc, #00fff7);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay">
+
+    <header>
+      <h1>DJ Adu</h1>
+      <div class="tagline">Weddings • Parties • Events • Clubs</div>
+    </header>
+
+    <!-- QUICK ACTION BUTTONS -->
+    <div class="buttons">
+      <a class="btn whatsapp" href="https://wa.me/+8253658347" target="_blank">WhatsApp</a>
+      <a class="btn call" href="tel:+18253658347">Call Now</a>
+      <a class="btn email" href="mailto:abrahamtekle29email.com">Email</a>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div class="booking-form">
+      <h2>Book DJ Adu</h2>
+
+      <form action="mailto:abrahamtekle29@email.com" method="post" enctype="text/plain">
+        <input type="text" name="Name" placeholder="Your Name" required />
+        <input type="tel" name="Phone" placeholder="Phone Number" required />
+        <input type="email" name="Email" placeholder="Email Address" required />
+
+        <select name="Event Type" required>
+          <option value="">Select Event Type</option>
+          <option>Wedding</option>
+          <option>Birthday</option>
+          <option>Party</option>
+          <option>Club</option>
+          <option>Other</option>
+        </select>
+
+        <input type="date" name="Event Date" required />
+        <textarea name="Message" rows="4" placeholder="Event Details"></textarea>
+
+        <button type="submit">Send Booking</button>
+      </form>
+    </div>
+
+    <footer>
+      © 2026 DJ Adu | Powered by You 🎧
+    </footer>
+
+  </div>
+</body>
+</html>
