@@ -6,105 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== GLOBAL ===== */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)),
-    url("dj-adu-bg.jpg") no-repeat center top / cover;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.9)),
+              url("dj-adu-bg.jpg") center top / cover no-repeat;
   color: #fff;
 }
 
-.overlay {
-  min-height: 100vh;
+.container {
   padding: 20px;
-}
-
-/* ===== HEADER ===== */
-header {
-  text-align: center;
-  margin-bottom: 20px;
+  max-width: 450px;
+  margin: auto;
 }
 
 h1 {
-  font-size: 40px;
-  color: #00fff7;
-  text-shadow: 0 0 15px #00fff7;
-}
-
-.tagline {
-  color: #ff00cc;
-  font-size: 16px;
-}
-
-/* ===== SLIDER ===== */
-.slider {
-  max-width: 380px;
-  margin: 20px auto;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 25px #00fff7;
-}
-
-.slider img {
-  width: 100%;
-  display: none;
-}
-
-.slider img.active {
-  display: block;
-}
-
-/* ===== BUTTONS ===== */
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 25px 0;
-}
-
-.btn {
-  padding: 14px 28px;
-  border-radius: 40px;
-  font-weight: bold;
-  color: #fff;
-  text-decoration: none;
-  animation: beat 1.2s infinite;
-  transition: transform 0.2s;
-}
-
-.btn:hover {
-  transform: scale(1.1);
-}
-
-.whatsapp {
-  background: #25D366;
-  box-shadow: 0 0 20px #25D366;
-}
-
-.call {
-  background: #007bff;
-  box-shadow: 0 0 20px #007bff;
-}
-
-@keyframes beat {
-  0% { box-shadow: 0 0 10px currentColor; }
-  50% { box-shadow: 0 0 30px currentColor; }
-  100% { box-shadow: 0 0 10px currentColor; }
-}
-
-/* ===== FORM ===== */
-.booking-form {
-  background: rgba(255,255,255,0.12);
-  padding: 25px;
-  border-radius: 20px;
-  max-width: 420px;
-  margin: auto;
-  box-shadow: 0 0 30px #ff00cc;
-}
-
-.booking-form h2 {
   text-align: center;
   color: #00fff7;
 }
@@ -112,126 +28,129 @@ h1 {
 input, select, textarea, button {
   width: 100%;
   padding: 12px;
-  margin-bottom: 14px;
-  border-radius: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
   border: none;
-  font-size: 15px;
-}
-
-input, select, textarea {
-  background: #fff;
-  color: #000;
 }
 
 button {
-  background: linear-gradient(90deg, #ff00cc, #00fff7);
+  background: linear-gradient(90deg,#ff00cc,#00fff7);
   font-weight: bold;
-  cursor: pointer;
 }
 
-footer {
+.map {
+  margin-top: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+a.pay {
+  display: block;
+  margin-top: 10px;
+  background: gold;
+  color: black;
+  padding: 12px;
   text-align: center;
-  margin-top: 30px;
-  color: #aaa;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
 }
 </style>
 </head>
 
 <body>
-<div class="overlay">
+<div class="container">
 
-<header>
-  <h1>DJ Adu ድጀይ ኣዱ</h1>
-  <div class="tagline">ንመርዓ • ንሕጸ • ንጥምቀት • ንመመረቕታ</div>
-</header>
-
-<!-- 📸 IMAGE SLIDER -->
-<div class="slider">
-  <img src="dj1.jpg" class="active">
-  <img src="dj2.jpg">
-  <img src="dj3.jpg">
-</div>
-
-<!-- QUICK BUTTONS -->
-<div class="buttons">
-  <a class="btn whatsapp" href="https://wa.me/18253658347" target="_blank">WhatsApp</a>
-  <a class="btn call" href="tel:+18253658347">Call</a>
-</div>
-
-<!-- BOOKING FORM -->
-<div class="booking-form">
-<h2>Book DJ Adu</h2>
+<h1>DJ Adu ድጀይ ኣዱ</h1>
 
 <form id="bookingForm">
-  <input id="name" type="text" placeholder="ሽም" required>
-  <input id="phone" type="tel" placeholder="ቴሌፎን" required>
+  <input id="name" placeholder="ሽም" required>
+  <input id="phone" placeholder="ቴሌፎን" required>
+  <input id="email" placeholder="Email" required>
 
   <select id="eventType" required>
     <option value="">ዓይነት ውራይ</option>
     <option>መርዓ</option>
     <option>ጥምቐት</option>
     <option>ሕጸ</option>
-    <option>መመረቅታ</option>
-    <option>ኻልእ</option>
   </select>
 
+  <input id="eventPlace" placeholder="📍 ቦታ ውራይ" required>
   <input id="eventDate" type="date" required onclick="this.showPicker && this.showPicker()">
 
-  <textarea id="message" rows="4" placeholder="ኣበይ ኣዳራሽ እዩ እቲ ውራይ"></textarea>
+  <textarea id="message" placeholder="መልእኽቲ"></textarea>
 
-  <button type="submit">Send via WhatsApp</button>
+  <button type="submit">Send Booking</button>
 </form>
+
+<a class="pay" href="YOUR_STRIPE_PAYMENT_LINK" target="_blank">
+💳 Pay Deposit to Confirm
+</a>
+
+<div class="map">
+  <iframe id="map" width="100%" height="250"
+    src="https://www.google.com/maps?q=Canada&output=embed"></iframe>
 </div>
 
-<footer>
-© 2026 DJ Adu 🎧
-</footer>
+<p style="text-align:center;">
+<a id="directions" target="_blank" style="color:#ff00cc;">🧭 Directions</a>
+</p>
 
 </div>
 
-<!-- ===== SCRIPT ===== -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-/* IMAGE SLIDER */
-let slides = document.querySelectorAll(".slider img");
-let index = 0;
+emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
 
-setInterval(() => {
-  slides[index].classList.remove("active");
-  index = (index + 1) % slides.length;
-  slides[index].classList.add("active");
-}, 3000);
+const placeInput = document.getElementById("eventPlace");
+const map = document.getElementById("map");
+const directions = document.getElementById("directions");
 
-/* WHATSAPP AUTO SEND (DJ + CUSTOMER) */
-document.getElementById("bookingForm").addEventListener("submit", function(e){
+placeInput.addEventListener("input", () => {
+  const p = encodeURIComponent(placeInput.value);
+  map.src = `https://www.google.com/maps?q=${p}&output=embed`;
+  directions.href = `https://www.google.com/maps/dir/?api=1&destination=${p}`;
+});
+
+let customerLocation = "Unknown";
+navigator.geolocation?.getCurrentPosition(pos=>{
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`)
+  .then(r=>r.json())
+  .then(d=> customerLocation = `${d.address.city||""}, ${d.address.country||""}`);
+});
+
+document.getElementById("bookingForm").addEventListener("submit", e=>{
   e.preventDefault();
 
-  const name = nameInput = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const eventType = document.getElementById("eventType").value;
-  const eventDate = document.getElementById("eventDate").value;
-  const message = document.getElementById("message").value.trim();
+  const data = {
+    name: name.value,
+    phone: phone.value,
+    email: email.value,
+    eventType: eventType.value,
+    eventPlace: eventPlace.value,
+    eventDate: eventDate.value,
+    message: message.value,
+    location: customerLocation
+  };
 
-  if (!name || !phone || !eventType || !eventDate) {
-    alert("እባክካ ኩሉ ምልኣኽ");
-    return;
-  }
+  fetch("YOUR_GOOGLE_SCRIPT_URL", {
+    method:"POST",
+    body: JSON.stringify(data)
+  });
 
-  const text =
-    "🎧 DJ Adu Booking\n\n" +
-    "👤 ሽም: " + name + "\n" +
-    "📞 ቴሌፎን: " + phone + "\n" +
-    "🎉 ውራይ: " + eventType + "\n" +
-    "📅 ዕለት: " + eventDate + "\n" +
-    "📍 መልእኽቲ: " + (message || "-");
+  emailjs.send("SERVICE_ID","TEMPLATE_ID",data);
 
-  const djNumber = "18253658347";
-  const djURL = "https://wa.me/" + djNumber + "?text=" + encodeURIComponent(text);
-  const customerURL = "https://wa.me/" + phone.replace(/\D/g,'') + "?text=" + encodeURIComponent("✅ ውራይካ ተላኢኹ:\n\n" + text);
+  const msg = `
+DJ Adu Booking
+Name: ${data.name}
+Event: ${data.eventType}
+Place: ${data.eventPlace}
+Date: ${data.eventDate}
+Location: ${data.location}
+`;
 
-  window.open(djURL, "_blank");
-  setTimeout(() => window.open(customerURL, "_blank"), 1200);
+  window.open("https://wa.me/18253658347?text="+encodeURIComponent(msg));
 });
 </script>
-
 </body>
 </html>
