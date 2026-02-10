@@ -1,156 +1,158 @@
 <!DOCTYPE html>
-<html lang="ti">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DJ Adu | Booking</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
+html, body {
   margin: 0;
+  height: 100%;
   font-family: Arial, sans-serif;
-  background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.9)),
-              url("dj-adu-bg.jpg") center top / cover no-repeat;
+  scroll-behavior: smooth;
+}
+
+/* FIXED BACKGROUND */
+.bg-fixed {
+  min-height: 100vh;
+  background-image: url("dj-background.jpg"); /* change image if needed */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* DARK OVERLAY */
+.overlay {
+  min-height: 100vh;
+  background: rgba(0,0,0,0.65);
+  padding: 40px 20px;
   color: #fff;
 }
 
-.container {
-  padding: 20px;
-  max-width: 450px;
+/* FORM */
+form {
+  max-width: 420px;
   margin: auto;
+}
+
+input, button {
+  width: 100%;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+}
+
+input {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 2px solid #ff0066;
+}
+
+/* DJ BUTTON ANIMATION */
+@keyframes beat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+button {
+  background: linear-gradient(45deg,#ff0066,#ffcc00);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  animation: beat 0.8s infinite;
 }
 
 h1 {
   text-align: center;
-  color: #00fff7;
+  text-shadow: 0 0 15px #ff0066;
 }
 
-input, select, textarea, button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: none;
-}
-
-button {
-  background: linear-gradient(90deg,#ff00cc,#00fff7);
-  font-weight: bold;
-}
-
-.map {
-  margin-top: 20px;
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-a.pay {
-  display: block;
-  margin-top: 10px;
-  background: gold;
-  color: black;
-  padding: 12px;
-  text-align: center;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
+/* MOBILE FIX */
+@media (max-width: 768px) {
+  .bg-fixed {
+    background-attachment: scroll;
+  }
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<h1>DJ Adu ድጀይ ኣዱ</h1>
+<div class="bg-fixed">
+  <div class="overlay">
 
-<form id="bookingForm">
-  <input id="name" placeholder="ሽም" required>
-  <input id="phone" placeholder="ቴሌፎን" required>
-  <input id="email" placeholder="Email" required>
+    <h1>🎧 DJ Adu Booking</h1>
 
-  <select id="eventType" required>
-    <option value="">ዓይነት ውራይ</option>
-    <option>መርዓ</option>
-    <option>ጥምቐት</option>
-    <option>ሕጸ</option>
-  </select>
+    <form onsubmit="sendBooking(event)">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="tel" id="phone" placeholder="Your Phone Number" required>
+      <input type="text" id="eventType" placeholder="Event Type (Wedding, Party…)" required>
 
-  <input id="eventPlace" placeholder="📍 ቦታ ውራይ" required>
-  <input id="eventDate" type="date" required onclick="this.showPicker && this.showPicker()">
+      <!-- DATE PICKER -->
+      <input type="date" id="eventDate" required>
 
-  <textarea id="message" placeholder="መልእኽቲ"></textarea>
+      <!-- LOCATION (AUTO-DETECT) -->
+      <input type="text" id="eventPlace" placeholder="Detecting your location..." required>
 
-  <button type="submit">Send Booking</button>
-</form>
+      <button type="button" onclick="openDirections()">🧭 Get Directions</button>
+      <button type="submit">📩 Book DJ Adu</button>
+    </form>
 
-<a class="pay" href="YOUR_STRIPE_PAYMENT_LINK" target="_blank">
-💳 Pay Deposit to Confirm
-</a>
-
-<div class="map">
-  <iframe id="map" width="100%" height="250"
-    src="https://www.google.com/maps?q=Canada&output=embed"></iframe>
+  </div>
 </div>
 
-<p style="text-align:center;">
-<a id="directions" target="_blank" style="color:#ff00cc;">🧭 Directions</a>
-</p>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+/* AUTO-DETECT LOCATION (NO MAP SHOWN) */
+navigator.geolocation.getCurrentPosition(async pos => {
+  const lat = pos.coords.latitude;
+  const lon = pos.coords.longitude;
 
-const placeInput = document.getElementById("eventPlace");
-const map = document.getElementById("map");
-const directions = document.getElementById("directions");
-
-placeInput.addEventListener("input", () => {
-  const p = encodeURIComponent(placeInput.value);
-  map.src = `https://www.google.com/maps?q=${p}&output=embed`;
-  directions.href = `https://www.google.com/maps/dir/?api=1&destination=${p}`;
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+    );
+    const data = await res.json();
+    document.getElementById("eventPlace").value =
+      data.address.city ||
+      data.address.town ||
+      data.address.state ||
+      data.address.country;
+  } catch {
+    document.getElementById("eventPlace").placeholder = "Enter event place";
+  }
 });
 
-let customerLocation = "Unknown";
-navigator.geolocation?.getCurrentPosition(pos=>{
-  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`)
-  .then(r=>r.json())
-  .then(d=> customerLocation = `${d.address.city||""}, ${d.address.country||""}`);
-});
+/* OPEN GOOGLE MAPS ONLY WHEN CLICKED */
+function openDirections() {
+  const place = document.getElementById("eventPlace").value;
+  window.open(
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`,
+    "_blank"
+  );
+}
 
-document.getElementById("bookingForm").addEventListener("submit", e=>{
+/* WHATSAPP AUTO-SEND TO DJ ADU */
+function sendBooking(e) {
   e.preventDefault();
 
-  const data = {
-    name: name.value,
-    phone: phone.value,
-    email: email.value,
-    eventType: eventType.value,
-    eventPlace: eventPlace.value,
-    eventDate: eventDate.value,
-    message: message.value,
-    location: customerLocation
-  };
+  const message =
+`🎧 DJ Adu – New Booking Request
 
-  fetch("YOUR_GOOGLE_SCRIPT_URL", {
-    method:"POST",
-    body: JSON.stringify(data)
-  });
+Name: ${name.value}
+Phone: ${phone.value}
+Event: ${eventType.value}
+Date: ${eventDate.value}
+Place: ${eventPlace.value}`;
 
-  emailjs.send("SERVICE_ID","TEMPLATE_ID",data);
-
-  const msg = `
-DJ Adu Booking
-Name: ${data.name}
-Event: ${data.eventType}
-Place: ${data.eventPlace}
-Date: ${data.eventDate}
-Location: ${data.location}
-`;
-
-  window.open("https://wa.me/18253658347?text="+encodeURIComponent(msg));
-});
+  window.open(
+    `https://wa.me/18253658347?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+}
 </script>
+
 </body>
 </html>
