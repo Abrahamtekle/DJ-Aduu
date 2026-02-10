@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DJ Adu ድጀይ ኣዱ | Booking</title>
 
 <style>
@@ -15,7 +16,7 @@ html, body {
 /* FIXED BACKGROUND */
 .bg-fixed {
   min-height: 100vh;
-  background-image: url("bg.jpg"); /* change image if needed */
+  background-image: url("bg.jpg"); /* your background */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -25,14 +26,22 @@ html, body {
 .overlay {
   min-height: 100vh;
   background: rgba(0,0,0,0.65);
-  padding: 40px 20px;
+  padding: 50px 20px;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* FORM CONTAINER */
+.form-box {
+  width: 100%;
+  max-width: 420px;
 }
 
 /* FORM */
 form {
-  max-width: 420px;
-  margin: auto;
+  width: 100%;
 }
 
 input, button {
@@ -50,6 +59,10 @@ input {
   border: 2px solid #ff0066;
 }
 
+input::placeholder {
+  color: #ccc;
+}
+
 /* DJ BUTTON ANIMATION */
 @keyframes beat {
   0% { transform: scale(1); }
@@ -62,12 +75,20 @@ button {
   color: #000;
   font-weight: bold;
   cursor: pointer;
-  animation: beat 0.8s infinite;
+  animation: beat 0.9s infinite;
 }
 
 h1 {
   text-align: center;
   text-shadow: 0 0 15px #ff0066;
+  margin-bottom: 20px;
+}
+
+/* DESKTOP IMPROVEMENT */
+@media (min-width: 900px) {
+  .form-box {
+    max-width: 500px;
+  }
 }
 
 /* MOBILE FIX */
@@ -84,68 +105,77 @@ h1 {
 <div class="bg-fixed">
   <div class="overlay">
 
-    <h1>🎧 DJ Adu Booking</h1>
+    <div class="form-box">
+      <h1>🎧 DJ Adu Booking</h1>
 
-    <form onsubmit="sendBooking(event)">
-      <input type="text" id="ሺም" placeholder="Your Name" required>
-      <input type="tel" id="ቴሌፎን" placeholder="Your Phone Number" required>
-      <input type="text" id="ዓይነት ውራይ" placeholder="ዓይነት ውራይ (Wedding, Party…)" required>
+      <form onsubmit="sendBooking(event)">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="tel" id="phone" placeholder="Your Phone Number" required>
+        <input type="text" id="eventType" placeholder="ዓይነት ውራይ (Wedding, Party…)" required>
 
-      <!-- DATE PICKER -->
-      <input type="date" id="eventDate" required>
+        <!-- NUMBER OF PEOPLE -->
+        <input type="number" id="people" placeholder="Number of People" min="1" required>
 
-      <!-- LOCATION (AUTO-DETECT) -->
-      <input type="text" id="eventPlace" placeholder="Detecting your location..." required>
+        <!-- DATE PICKER -->
+        <input type="date" id="eventDate" required>
 
-      <button type="button" onclick="openDirections()">🧭 Get Directions</button>
-      <button type="submit">📩 Book DJ Adu ድጀይ ኣዱ</button>
-    </form>
+        <!-- LOCATION (AUTO-DETECT, NO MAP) -->
+        <input type="text" id="eventPlace" placeholder="Detecting your location..." required>
+
+        <button type="button" onclick="openDirections()">🧭 Get Directions</button>
+        <button type="submit">📩 Book DJ Adu ድጀይ ኣዱ</button>
+      </form>
+    </div>
 
   </div>
 </div>
 
 <script>
 /* AUTO-DETECT LOCATION (NO MAP SHOWN) */
-navigator.geolocation.getCurrentPosition(async pos => {
-  const lat = pos.coords.latitude;
-  const lon = pos.coords.longitude;
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
 
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-    );
-    const data = await res.json();
-    document.getElementById("eventPlace").value =
-      data.address.city ||
-      data.address.town ||
-      data.address.state ||
-      data.address.country;
-  } catch {
-    document.getElementById("eventPlace").placeholder = "Enter event place";
-  }
-});
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+      );
+      const data = await res.json();
+      document.getElementById("eventPlace").value =
+        data.address.city ||
+        data.address.town ||
+        data.address.state ||
+        data.address.country;
+    } catch {
+      document.getElementById("eventPlace").placeholder = "Enter event place";
+    }
+  });
+}
 
 /* OPEN GOOGLE MAPS ONLY WHEN CLICKED */
 function openDirections() {
   const place = document.getElementById("eventPlace").value;
+  if (!place) return;
   window.open(
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`,
     "_blank"
   );
 }
 
-/* WHATSAPP AUTO-SEND TO DJ ADU */
+/* WHATSAPP AUTO-SEND */
 function sendBooking(e) {
   e.preventDefault();
 
-  const message =
-`🎧 DJ Adu ድጀይ ኣዱ– New Booking Request
+  const message = 
+`🎧 DJ Adu ድጀይ ኣዱ – New Booking Request
 
-Name: ${name.value}
-Phone: ${phone.value}
-Event: ${eventType.value}
-Date: ${eventDate.value}
-Place: ${eventPlace.value}`;
+👤 Name: ${name.value}
+📞 Phone: ${phone.value}
+🎉 Event: ${eventType.value}
+👥 People: ${people.value}
+📅 Date: ${eventDate.value}
+📍 Place: ${eventPlace.value}`;
 
   window.open(
     `https://wa.me/18253658347?text=${encodeURIComponent(message)}`,
@@ -156,6 +186,3 @@ Place: ${eventPlace.value}`;
 
 </body>
 </html>
-
-
-
